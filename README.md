@@ -10,11 +10,11 @@
 
 ## 三分钟上手
 
-1. **新建仓库**，名字必须是 `<你的用户名>.github.io`（站内链接都是根绝对路径，换个名字整站样式和链接一起失效）
+1. **点右上角 Use this template → Create a new repository**，仓库名必须是 `<你的用户名>.github.io`（站内链接都是根绝对路径，换个名字整站样式和链接一起失效）
 2. **改配置**：`src/config/site.json`、`profile.json`、`navigation.json`、`about.ts`、`links.ts`
 3. **开 Pages**：Settings → Pages → Source 选 **GitHub Actions**，等 `Deploy to GitHub Pages` 变绿
 
-细节见[快速启动](README/quickstart.md)。
+三步加起来十分钟左右。细节见[快速启动](README/quickstart.md)。
 
 > 本仓库自身叫 `blog-template`，不满足「仓库名以 `.github.io` 结尾」这个前提，所以它的部署工作流会直接跳过——这是预期的，不是坏了。站内链接全是根绝对路径，只有部署在域名根路径上才对。
 
