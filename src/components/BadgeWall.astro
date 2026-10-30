@@ -1,0 +1,40 @@
+---
+/**
+ * 徽章墙：早期个人主页那种一排小按钮的样式。
+ * 用于「常用链接」。整个徽章是 HTML + CSS 画出来的（不是图片），
+ * 所以放大到任何尺寸都清晰，加一个新链接也只需要改 links.ts。
+ *
+ * 图标默认灰度，鼠标悬停或键盘聚焦时恢复原色，
+ * 避免满屏彩色小图冲淡整站的黑白灰基调。
+ * 没有图标的条目退化成字母块，保持同一套尺寸。
+ */
+import { isExternalHref, type LinkItem } from '../config/links';
+
+interface Props {
+  links: LinkItem[];
+}
+
+const { links } = Astro.props;
+---
+
+<ul class="badge-wall">
+  {links.map((link) => {
+    const external = isExternalHref(link.href);
+    const linkAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+    return (
+      <li>
+        <a class="badge-item" href={link.href} {...linkAttrs}>
+          {link.icon ? (
+            <img class="badge-item__icon" src={link.icon} alt="" width="22" height="22" loading="lazy" decoding="async" />
+          ) : (
+            <span class="badge-item__icon badge-item__icon--mono" aria-hidden="true">
+              {link.monogram ?? link.label.slice(0, 1)}
+            </span>
+          )}
+          <span class="badge-item__label">{link.label}</span>
+          {external ? <span class="visually-hidden">（在新窗口打开）</span> : null}
+        </a>
+      </li>
+    );
+  })}
+</ul>

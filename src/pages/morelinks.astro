@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LinkBlock from '../components/LinkBlock.astro';
+import { linkGroups } from '../config/links';
+
+const visibleGroups = linkGroups
+  .map((group) => ({
+    ...group,
+    subgroups: group.subgroups?.filter((sub) => sub.links.length > 0),
+  }))
+  .filter((group) => group.links.length > 0 || (group.subgroups?.length ?? 0) > 0);
+---
+
+<BaseLayout title="链接库" description="整理外部平台、项目仓库、工具、研究资料与常用链接。">
+  <div class="page">
+    <div class="container">
+      <header class="page-header">
+        <h1 class="page-title">链接库</h1>
+        <p class="page-intro">整理经常访问或希望分享的外部资源。</p>
+      </header>
+
+      {
+        visibleGroups.length > 0 ? (
+          visibleGroups.map((group) => (
+            <section class="link-group" aria-labelledby={`group-${group.id}`}>
+              <h2 class="link-group__heading" id={`group-${group.id}`}>{group.title}</h2>
+              {group.description ? <p class="link-group__description">{group.description}</p> : null}
+              {group.subgroups && group.subgroups.length > 0 ? (
+                group.subgroups.map((sub, index) => (
+                  <>
+                    {index > 0 ? <hr class="link-group__divider" /> : null}
+                    <div class="link-subgroup">
+                      <h3 class="link-subgroup__heading" id={`group-${group.id}-${sub.id}`}>{sub.title}</h3>
+                      <LinkBlock links={sub.links} layout={sub.layout} fallbackLayout={group.layout} />
+                    </div>
+                  </>
+                ))
+              ) : (
+                <LinkBlock links={group.links} layout={group.layout} />
+              )}
+            </section>
+          ))
+        ) : (
+          <p class="empty-state">链接整理中，稍后补充。</p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

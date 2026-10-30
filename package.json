@@ -1,0 +1,37 @@
+{
+  "name": "blog-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "node scripts/optimize_images.mjs && astro dev",
+    "start": "node scripts/optimize_images.mjs && astro dev",
+    "build": "node scripts/optimize_images.mjs && astro build && npm run search:index",
+    "search:index": "pagefind --site dist && python scripts/check_search_budget.py",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:images": "python scripts/check_remote_images.py",
+    "links": "python scripts/check_links.py",
+    "check:prose": "python scripts/check_prose.py",
+    "images": "node scripts/optimize_images.mjs && node scripts/make_og.mjs",
+    "images:force": "node scripts/optimize_images.mjs --force && node scripts/make_og.mjs",
+    "test": "python -m unittest discover -s tests -v",
+    "test:md": "node --test tests/markdown/*.test.mjs",
+    "og": "node scripts/make_og.mjs"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "^0.4.3",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "pagefind": "^1.5.2",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.3"
+  }
+}

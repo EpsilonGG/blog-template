@@ -1,0 +1,62 @@
+{
+  "$comment": "由 scripts/optimize_images.mjs 生成，请勿手改。",
+  "generatedAt": "2026-10-30T08:01:06.319Z",
+  "images": {
+    "/images/blog/example/01.jpg": {
+      "w": 1280,
+      "h": 720,
+      "bytes": 43081,
+      "variants": [
+        {
+          "w": 600,
+          "src": "/images/blog/example/01-600.webp",
+          "bytes": 3764
+        },
+        {
+          "w": 960,
+          "src": "/images/blog/example/01-960.webp",
+          "bytes": 6936
+        },
+        {
+          "w": 1280,
+          "src": "/images/blog/example/01-1280.webp",
+          "bytes": 9412
+        }
+      ]
+    },
+    "/images/blog/example/02.jpg": {
+      "w": 800,
+      "h": 600,
+      "bytes": 29179,
+      "variants": [
+        {
+          "w": 600,
+          "src": "/images/blog/example/02-600.webp",
+          "bytes": 5754
+        },
+        {
+          "w": 800,
+          "src": "/images/blog/example/02-800.webp",
+          "bytes": 8198
+        }
+      ]
+    },
+    "/images/blog/example/03.jpg": {
+      "w": 800,
+      "h": 600,
+      "bytes": 26687,
+      "variants": [
+        {
+          "w": 600,
+          "src": "/images/blog/example/03-600.webp",
+          "bytes": 4480
+        },
+        {
+          "w": 800,
+          "src": "/images/blog/example/03-800.webp",
+          "bytes": 6600
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+/* ==========================================================================
+   设计变量（Design Tokens）
+   所有颜色、字体、字号、间距、圆角、动效时长都在这里定义。
+   组件中禁止硬编码颜色值与圆角数值。
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* 颜色：浅色主题（黑白灰，无品牌强调色） */
+  --color-bg: #ffffff;
+  --color-bg-subtle: #f7f7f7;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-text-muted: #767676;
+  --color-border: #e5e5e5;
+  --color-border-strong: #cfcfcf;
+  --color-selection: #e5e5e5;
+  /* 工具图标瓦片：图片素材本身是白色圆角方块，没有图片时的字母块要跟它保持一致 */
+  --color-tile-bg: #ffffff;
+  --color-tile-text: #555555;
+
+  /*
+    背景图（宽屏可选，默认关闭）
+    --paper-w 是「纸面」宽度：header / main / footer 都收进这条居中的竖带里，
+    照片只在两侧留白露出。改窄＝露出更多，改宽＝露出更少。
+    --bg-veil 是压住照片的纱，数值越大照片越淡。
+  */
+  --paper-w: var(--page-max);
+  --bg-veil: rgba(255, 255, 255, 0.8);
+
+  /* 字体族 */
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-serif: "Cormorant Garamond", "Songti SC", "Noto Serif SC", Georgia,
+    "Times New Roman", serif;
+  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  /* 字号层级 */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.25rem;
+
+  /* 行高 */
+  --leading-tight: 1.25;
+  --leading-snug: 1.4;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* 字距 */
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+
+  /* 布局 */
+  --page-max: 46rem;
+  --measure: 38rem;
+  --page-padding: 1.5rem;
+  --header-height: 3.5rem;
+  /* 文章页左/右两栏同宽（13rem = 208px），正文因此落在视口正中 */
+  --rail-w: 13rem;
+  /* 正文与右栏之间的留白：0 的话广告图会贴住正文最后一个字 */
+  --rail-gutter: 1rem;
+  /*
+    左侧栏轨道 = 右栏 + 留白。多出来的这一份不是给侧栏用的（侧栏本身靠右贴齐、
+    仍是 --rail-w 宽），而是用来抵消右侧那道 --rail-gutter，让正文左右两侧
+    的总宽度相等、继续居中。改任何一边都要让这个等式成立。
+  */
+  --sidebar-w: calc(var(--rail-w) + var(--rail-gutter));
+  --sidebar-gap: 2rem;
+  /* 目录行高与最多可见行数：超出后在栏内滚动 */
+  --toc-row-h: 1.75rem;
+  --toc-rows: 10;
+  /* 窄屏工具条吸顶后的高度：跳转锚点要避开它 */
+  --article-toolbar-h: 2.75rem;
+
+  /* 间距体系 */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem; /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.5rem; /* 24px */
+  --space-6: 2rem; /* 32px */
+  --space-7: 3rem; /* 48px */
+  --space-8: 4rem; /* 64px */
+
+  /* 形状 */
+  --radius: 6px;
+  --radius-round: 50%;
+  --border-width: 1px;
+
+  /* 动效 */
+  --duration-fast: 120ms;
+  --duration: 180ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* 深色主题：仅覆盖颜色变量，变量名称与浅色主题保持一致 */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #101010;
+  --color-bg-subtle: #191919;
+  --color-text: #ededed;
+  --color-text-secondary: #b3b3b3;
+  --color-text-muted: #909090;
+  --color-border: #2a2a2a;
+  --color-border-strong: #3d3d3d;
+  --color-selection: #333333;
+  /* 深色主题下照片压得更狠一些，否则亮部会把整页照亮 */
+  --bg-veil: rgba(16, 16, 16, 0.86);
+}

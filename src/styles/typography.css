@@ -1,0 +1,279 @@
+/* ==========================================================================
+   排版：标题层级、正文、文章内容（Markdown 输出）
+   不使用中文斜体、不滥用全大写、不使用大面积粗体。
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-normal);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+}
+
+h2 {
+  font-size: var(--text-xl);
+}
+
+h3 {
+  font-size: var(--text-lg);
+}
+
+h4 {
+  font-size: var(--text-base);
+}
+
+p {
+  margin: 0;
+}
+
+/* 页面主标题区 */
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+}
+
+/* 以姓名作为标题时使用衬线字体，与首页保持一致的视觉身份 */
+.page-title--name {
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.page-intro {
+  margin-top: var(--space-3);
+  max-width: var(--measure);
+  color: var(--color-text-secondary);
+}
+
+/* 辅助说明文字 */
+.meta {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   文章正文
+   -------------------------------------------------------------------------- */
+
+.prose {
+  max-width: var(--measure);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+/*
+  正文两端对齐。
+
+  中文每个字一样宽，一行放得下多少字是固定的，所以不做对齐时行末会差一两个字，
+  三十几行读下来右边缘就是一条锯齿。对齐之后右边缘是一条直线。
+
+  这里只写 text-align，不写 text-justify：
+  - 标准里的 inter-ideograph 在 Chrome 里已经不认（实测 CSS.supports 为 false），
+    写了也只会被丢掉；
+  - 默认的 auto 对中文本来就是按「字间」分配余量、对英文按「词间」分配，
+    正是想要的行为，硬改成 inter-character 反而会把英文单词拆开。
+
+  最后一行浏览器按默认规则左对齐，不会被拉成一段稀稀拉拉的字。
+  列表项同理，否则有序列表里长段落会跟正文对不齐。
+*/
+.prose p,
+.prose li {
+  text-align: justify;
+}
+
+/*
+  窄屏退回左对齐。
+
+  对齐的好处要靠「一行字数多」才成立：608px 一行能放三十来个汉字，
+  每行要补的余量不到半个字，看起来还是均匀的。到 390px 一行只剩二十字上下，
+  再碰上 @handle、英文作品名这种不能拆的长词，余量只能摊到字间和词间，
+  就会出现「汇总了明天「FIRST」／FLIGHT」线下活动」这种豁口。
+  这个宽度下右边缘本来也看不出来，不值得为它牺牲行内节奏。
+*/
+@media (max-width: 640px) {
+  .prose p,
+  .prose li {
+    text-align: start;
+  }
+}
+
+.prose h2 {
+  margin-top: var(--space-7);
+  font-size: var(--text-xl);
+}
+
+.prose h3 {
+  margin-top: var(--space-6);
+  font-size: var(--text-lg);
+}
+
+.prose h4 {
+  margin-top: var(--space-5);
+  font-size: var(--text-base);
+}
+
+/* 从左侧栏目录跳转时，标题不要紧贴视口顶端 */
+.prose :is(h1, h2, h3, h4) {
+  scroll-margin-top: var(--space-5);
+}
+
+.prose ul,
+.prose ol {
+  margin-top: var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: var(--space-2);
+}
+
+.prose blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  border-left: 2px solid var(--color-border-strong);
+  color: var(--color-text-secondary);
+  font-style: normal;
+}
+
+.prose blockquote > * + * {
+  margin-top: var(--space-3);
+}
+
+/*
+ * 提示框（`:::note` 等，见 src/lib/markdown-admonition.mjs）。
+ * 结构是 `<blockquote class="callout callout--note"><p class="callout__title">…`，
+ * 所以要先盖掉上面 blockquote 的左边线、灰字和斜体倾向。
+ * 五种类型不靠颜色区分（本站只有黑白灰），靠左边线的粗细与底色的深浅：
+ * note / tip 细线，important / warning / caution 粗线。
+ */
+.prose .callout {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-left: 2px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  background: var(--color-bg-subtle);
+  color: var(--color-text);
+}
+
+.prose .callout--important,
+.prose .callout--warning,
+.prose .callout--caution {
+  border-left-width: 4px;
+  border-left-color: var(--color-text);
+}
+
+.prose .callout__title {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+}
+
+.prose .callout > * + * {
+  margin-top: var(--space-3);
+}
+
+.prose a {
+  text-decoration-color: var(--color-text-muted);
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose img {
+  margin-block: var(--space-5);
+  border-radius: var(--radius);
+  border: var(--border-width) solid var(--color-border);
+}
+
+.prose hr {
+  margin-block: var(--space-6);
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius);
+  background-color: var(--color-bg-subtle);
+  font-size: 0.875em;
+}
+
+.prose pre {
+  margin-block: var(--space-5);
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg-subtle);
+  overflow-x: auto;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  tab-size: 2;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.prose table {
+  width: 100%;
+  margin-block: var(--space-5);
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  display: block;
+  overflow-x: auto;
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-border);
+  text-align: left;
+}
+
+.prose th {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Shiki 双主题：颜色跟随 data-theme，而不是系统偏好。
+   背景色统一用设计变量，避免 token 自身带出的背景色块。 */
+.prose pre.astro-code,
+.prose pre.astro-code span {
+  color: var(--shiki-light);
+}
+
+.prose pre.astro-code {
+  background-color: var(--color-bg-subtle);
+}
+
+:root[data-theme="dark"] .prose pre.astro-code,
+:root[data-theme="dark"] .prose pre.astro-code span {
+  color: var(--shiki-dark);
+}
+
+:root[data-theme="dark"] .prose pre.astro-code {
+  background-color: var(--color-bg-subtle);
+}

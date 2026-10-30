@@ -1,0 +1,144 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import ArticleSidebar from '../components/ArticleSidebar.astro';
+import ArticleRail from '../components/ArticleRail.astro';
+import { formatDate, postPath, type Post } from '../lib/posts';
+import ogManifest from '../data/og-manifest.json';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  post: Post;
+  /** 较新的一篇（发布日期更晚），可为空 */
+  newer?: Post | null;
+  /** 较旧的一篇，可为空 */
+  older?: Post | null;
+  /** 正文标题，用于左侧栏目录 */
+  headings?: Heading[];
+}
+
+const { post, newer = null, older = null, headings = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, source } = post.data;
+
+/**
+ * 分享图：`npm run og` 会为每篇有本地配图的文章裁一张 1200×630（清单见
+ * `src/data/og-manifest.json`）。没有专属图就交给 BaseLayout 退到站点默认图——
+ * 这里**不要**写 `?? site.ogImage`，否则默认图就写死在两处了。
+ */
+const ogImage = (ogManifest as Record<string, string>)[post.id];
+---
+
+<BaseLayout
+  title={title}
+  description={description ?? `${title} · ${post.id}`}
+  ogType="article"
+  image={ogImage}
+>
+  <ReadingProgress />
+
+  <article class="page article-page">
+    <div class="container article-page__inner">
+      <ArticleSidebar title={title} headings={headings} newer={newer} older={older} />
+
+      <div class="article-page__main">
+        <a class="back-link" href="/blog/">
+          <span aria-hidden="true">←</span> 返回笔记
+        </a>
+
+        <header class="article-header">
+          <h1 class="article-title">{title}</h1>
+          <div class="article-meta">
+            <span>
+              发表于
+              <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+            </span>
+            {
+              updatedDate ? (
+                <span>
+                  更新于
+                  <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+                </span>
+              ) : null
+            }
+          </div>
+          {description ? <p class="article-description">{description}</p> : null}
+          {
+            source === 'ai' ? (
+              <p class="article-badge article-badge--page">AI 整理</p>
+            ) : null
+          }
+        </header>
+
+        <div class="prose" data-pagefind-body>
+          <slot />
+        </div>
+
+        {
+          tags.length > 0 ? (
+            <ul class="tag-list" aria-label="文章标签">
+              {tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          ) : null
+        }
+
+        {
+          newer || older ? (
+            <nav class="article-nav" aria-label="文章导航">
+              {newer ? (
+                <a class="article-nav__item" href={postPath(newer)}>
+                  <span class="article-nav__label">较新一篇</span>
+                  <span class="article-nav__title">{newer.data.title}</span>
+                </a>
+              ) : (
+                <span></span>
+              )}
+              {older ? (
+                <a class="article-nav__item article-nav__item--next" href={postPath(older)}>
+                  <span class="article-nav__label">较旧一篇</span>
+                  <span class="article-nav__title">{older.data.title}</span>
+                </a>
+              ) : null}
+            </nav>
+          ) : null
+        }
+      </div>
+
+      {/* 右侧广告位：默认不渲染（见 src/config/ads.json）。它落在网格第 4 列，
+          也就是原本给「正文居中」留的对称占位列，所以开启后正文位置不变。 */}
+      <ArticleRail />
+    </div>
+  </article>
+
+  {/*
+    注释面板：点击正文里的注释标记时从底部弹出。
+    结构常驻在 DOM 里（hidden），由 src/scripts/article-notes.ts 控制显示，
+    这样面板里的内容可以直接从文末注释列表克隆，不需要额外的数据来源。
+  */}
+  <div class="note-popover" id="note-popover" hidden>
+    <div
+      class="note-popover__panel"
+      role="dialog"
+      aria-labelledby="note-popover-label"
+      tabindex="-1"
+    >
+      <div class="note-popover__head">
+        <p class="note-popover__label" id="note-popover-label">注释</p>
+        <button class="note-popover__close" type="button" aria-label="关闭注释">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="note-popover__body"></div>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/article-notes.ts';
+  </script>
+</BaseLayout>
