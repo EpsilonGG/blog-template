@@ -5,10 +5,14 @@
  * 页面组件中不硬编码任何个人链接。
  *
  * 注意：
+ * - 模板里的每个分类都只留一条示例链接，地址统一指向 GitHub 官网，
+ *   用途是展示排版样式；换成自己的链接时直接把 href 改掉即可。
  * - 只填写可以确认的真实地址，不要填写猜测或未经验证的账号。
  * - 没有内容的分类会自动隐藏，不会渲染空区块。
  * - 每个分类用 layout 决定渲染方式，不写则按 'list' 渲染。
  * - 分类可以再拆成 subgroups（子栏目），子栏目之间自动画一条分隔线。
+ * - 条目里的 icon 是可选字段：放一张图到 public/images/links/icons/ 再填路径，
+ *   不填则退化成字母块（monogram，省略时取 label 首字）。
  */
 
 export interface LinkItem {
@@ -61,12 +65,15 @@ export interface LinkGroup {
  * 留空时该区块不渲染，其余内容（简介、关注领域、项目与经历）照常显示。
  */
 export const primaryLinks: LinkItem[] = [
-  { label: 'GitHub', href: 'https://github.com/EpsilonGG', description: '代码与项目仓库' },
+  { label: 'GitHub', href: 'https://github.com/', description: '主要平台，换成你自己的主页地址' },
 ];
 
 /**
  * 链接库分类。分类由配置驱动，页面组件不硬编码链接。
  * 顺序即页面顺序：个人平台 → 项目 → 工具 → 参考资料 → 常用链接。
+ *
+ * 每个分类只放一条示例链接，说明文字写的就是这个版式长什么样，
+ * 换内容时连说明一起改掉即可。
  */
 export const linkGroups: LinkGroup[] = [
   {
@@ -77,8 +84,8 @@ export const linkGroups: LinkGroup[] = [
     links: [
       {
         label: 'GitHub',
-        href: 'https://github.com/EpsilonGG',
-        description: '代码与项目仓库。',
+        href: 'https://github.com/',
+        description: '卡片版式：名称、说明，右上角还能放一个 meta 标签。',
         meta: '外部',
       },
     ],
@@ -90,16 +97,10 @@ export const linkGroups: LinkGroup[] = [
     layout: 'cards',
     links: [
       {
-        label: 'X-rss',
-        href: 'https://github.com/EpsilonGG/X-rss',
-        description: '基于 GitHub Actions 的 X / Twitter RSS 聚合器，自动生成标准 RSS 并发布到 Pages。',
-        meta: 'Python',
-      },
-      {
-        label: 'X-Reader',
-        href: 'https://github.com/EpsilonGG/X-Reader',
-        description: '抓取 X、RSS 与 YouTube 的更新，推送到 Telegram 和 QQ。',
-        meta: 'Python',
+        label: '示例项目',
+        href: 'https://github.com/',
+        description: '一句话说明这个项目做什么，整张卡片都是链接。',
+        meta: 'Astro',
       },
     ],
   },
@@ -110,52 +111,10 @@ export const linkGroups: LinkGroup[] = [
     layout: 'icons',
     links: [
       {
-        label: 'MDN Web Docs',
-        href: 'https://developer.mozilla.org/',
-        description: '技术参考',
-        icon: '/images/tools/mdn.png',
-      },
-      {
-        label: 'Astro 文档',
-        href: 'https://docs.astro.build/',
-        description: '框架文档',
-        icon: '/images/tools/astro.png',
-      },
-      {
-        label: 'GitHub Pages',
-        href: 'https://docs.github.com/pages',
-        description: '托管部署',
-        icon: '/images/tools/github-pages.png',
-      },
-      {
-        label: 'ChatGPT',
-        href: 'https://chatgpt.com/',
-        description: '对话模型',
-        icon: '/images/tools/chatgpt.png',
-      },
-      {
-        label: 'Google AI Studio',
-        href: 'https://aistudio.google.com/',
-        description: '模型调试',
-        icon: '/images/tools/aistudio.png',
-      },
-      {
-        label: 'Google Colab',
-        href: 'https://colab.research.google.com/',
-        description: '在线笔记本',
-        icon: '/images/tools/colab.png',
-      },
-      {
-        label: 'ErgouTree 工具箱',
-        href: 'https://github.com/ergou10086/ErgouTreeImageToolsBox',
-        description: '图像处理',
-        monogram: 'ET',
-      },
-      {
-        label: '小雪工具箱',
-        href: 'https://github.com/xueayi/XiaoXue-Video-Tools',
-        description: '视频图像处理',
-        monogram: '雪',
+        label: '示例工具',
+        href: 'https://github.com/',
+        description: '图标网格：没有图标时显示字母块',
+        monogram: 'T',
       },
     ],
   },
@@ -165,22 +124,9 @@ export const linkGroups: LinkGroup[] = [
     description: '长期回看的文献与资料。',
     links: [
       {
-        label: 'PubMed',
-        href: 'https://pubmed.ncbi.nlm.nih.gov/',
-        description: '生物医学文献检索。',
-        tags: ['文献'],
-      },
-      {
-        label: 'NCBI',
-        href: 'https://www.ncbi.nlm.nih.gov/',
-        description: '序列、基因组与数据库资源。',
-        tags: ['数据'],
-      },
-      {
-        label: 'Google Scholar',
-        href: 'https://scholar.google.com/',
-        description: '跨库学术搜索。',
-        tags: ['检索'],
+        label: '示例资料',
+        href: 'https://github.com/',
+        description: '列表版式：左边名称，右边说明，一行一条。',
       },
     ],
   },
@@ -191,118 +137,28 @@ export const linkGroups: LinkGroup[] = [
     links: [],
     subgroups: [
       {
-        id: 'github',
-        title: 'GitHub',
+        id: 'accounts',
+        title: '常去的账号',
         layout: 'badges',
         links: [
           {
-            label: 'xueayi',
-            href: 'https://github.com/xueayi',
-            description: '小雪',
-            icon: '/images/people/xueayi.png',
-          },
-          {
-            label: 'eryuemu',
-            href: 'https://github.com/eryuemu',
-            description: '二月木',
-            icon: '/images/people/eryuemu.png',
-          },
-          {
-            label: 'JupiterFeng',
-            href: 'https://github.com/JupiterFeng',
-            description: 'JianrenJun',
-            icon: '/images/people/JupiterFeng.png',
-          },
-          {
-            label: 'GalTransl',
-            href: 'https://github.com/GalTransl',
-            description: 'GalTransl 翻译工具',
-            icon: '/images/people/GalTransl.png',
-          },
-          {
-            label: 'ergou10086',
-            href: 'https://github.com/ergou10086',
-            description: 'ErgouTree',
-            icon: '/images/people/ergou10086.png',
+            label: '示例账号',
+            href: 'https://github.com/',
+            description: '徽章版式',
+            monogram: 'G',
           },
         ],
       },
       {
-        id: 'acg',
-        title: 'ACG 资源',
+        id: 'sites',
+        title: '站点收藏',
         layout: 'badges',
         links: [
           {
-            label: 'Galgame批评',
-            href: 'https://space.bilibili.com/2072586344',
-            description: 'B站评论',
-            icon: '/images/links/icons/galgame-piping.png',
-          },
-          {
-            label: 'YMGAL',
-            href: 'https://www.ymgal.games/',
-            description: '资料库',
-            icon: '/images/links/icons/ymgal.png',
-          },
-          {
-            label: 'DLsite',
-            href: 'https://www.dlsite.com/',
-            description: '同人贩售',
-            icon: '/images/links/icons/dlsite.png',
-          },
-          {
-            label: 'Ci-en',
-            href: 'https://ci-en.dlsite.com/',
-            description: '创作者支援',
-            icon: '/images/links/icons/ci-en.png',
-          },
-          {
-            label: 'CnGal',
-            href: 'https://www.cngal.org/',
-            description: '国产 Galgame 资料',
-            icon: '/images/links/icons/cngal.png',
-          },
-          {
-            label: '2DFan',
-            href: 'https://galge.fun/',
-            description: '攻略与补丁',
-            icon: '/images/links/icons/2dfan.png',
-          },
-          {
-            label: 'Hikarinagi',
-            href: 'https://www.hikarinagi.org/',
-            description: '资讯与评测',
-            icon: '/images/links/icons/hikarinagi.png',
-          },
-          {
-            label: '鲲Galgame',
-            href: 'https://www.kungal.com/',
-            description: '资源站',
-            icon: '/images/links/icons/kungal.png',
-          },
-          {
-            label: 'Bangumi',
-            href: 'https://bgm.tv/',
-            description: '番组计划',
-            icon: '/images/links/icons/bangumi.png',
-          },
-          {
-            label: 'VNDB',
-            href: 'https://vndb.org/',
-            description: '视觉小说数据库',
-            monogram: 'V',
-          },
-          {
-            label: '批评空间',
-            href: 'https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/',
-            description: 'ErogameScape 评分',
-            icon: '/images/links/icons/erogamescape.png',
-          },
-          {
-            label: '南+论坛',
-            href: 'https://www.south-plus.net/',
-            description: 'South Plus',
-            monogram: '南',
+            label: '示例站点',
+            href: 'https://github.com/',
+            description: '同一分类下的第二组',
+            monogram: 'S',
           },
         ],
       },

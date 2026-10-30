@@ -26,24 +26,24 @@ export interface AboutConfig {
 }
 
 export const about: AboutConfig = {
-  intro: ['不务正业的研究生'],
-  focusAreas: ['Galgame', 'Doujin ASMR/Games', 'Life Sciences', 'Vibe Coding'],
+  intro: ['这里写一段自我介绍：你是谁、在做什么、关心什么。这段话只出现在名片页，首页的那段在 profile.json 里。'],
+  focusAreas: ['Web Development', 'Static Sites', 'Markdown Writing', 'Interface Design'],
   projects: [
     {
-      title: 'X-rss',
-      href: 'https://github.com/EpsilonGG/X-rss',
-      description: '基于 GitHub Actions 的 X / Twitter RSS 聚合器，自动生成标准 RSS 并发布到 Pages。',
+      title: '示例项目',
+      href: 'https://github.com/',
+      description: '一句话说明这个项目做什么，标题会变成链接。',
     },
     {
-      title: 'X-Reader',
-      href: 'https://github.com/EpsilonGG/X-Reader',
-      description: '抓取 X、RSS 与 YouTube 的更新，推送到 Telegram 和 QQ。',
+      title: '另一个项目',
+      description: '不写 href 时标题退化成纯文本，适合还没有仓库的项目。',
     },
   ],
   experience: [
     {
-      title: '中山大学 海洋科学（本硕）',
-      description: '参与鱼类疫病防治及饲料配方优化方向国家重点研发计划。',
+      title: '学校 / 公司 · 专业或职位',
+      period: '2022 — 至今',
+      description: '一句话说明你在这里做过什么。period 是可选的，写了会显示在标题右侧。',
     },
   ],
 };

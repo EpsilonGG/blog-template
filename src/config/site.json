@@ -1,9 +1,9 @@
 {
-  "name": "EpsilonGG",
-  "url": "https://epsilongg.github.io",
-  "description": "EpsilonGG 的个人主页",
+  "name": "template",
+  "url": "https://example.github.io",
+  "description": "一个用 Astro 写的静态个人主页模板",
   "lang": "zh-CN",
-  "author": "EpsilonGG",
+  "author": "template",
   "startYear": 2026,
   "ogImage": "/og/default.jpg",
   "github": "",

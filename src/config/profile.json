@@ -1,12 +1,12 @@
 {
-  "name": "EpsilonGG",
-  "tagline": "学生物的Galgamer",
+  "name": "template",
+  "tagline": "一句话说明你是谁",
   "intro": [
-    "Galgame | 同人音声 | vibe everything",
-    "不务正业中"
+    "这里是自我介绍的第一段：你是谁、在做什么、最近关心什么。",
+    "第二段可以写得更随意一些。想加第三段就再写一行，整段删光则首页不显示这一块。"
   ],
   "avatar": "/images/avatar.jpg",
   "location": "",
-  "email": "epsilongg.work@gmail.com",
-  "description": "混沌中立"
+  "email": "",
+  "description": "个人主页模板"
 }

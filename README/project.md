@@ -43,7 +43,7 @@ npm run test:md  # Markdown 插件测试
 │   │   ├── avatar.jpg         头像（460×460）
 │   │   ├── bg/                可选背景图（宽于 1280px 才生效，默认关闭）
 │   │   ├── blog/<slug>/       每篇文章自己的插图目录
-│   │   ├── links/ people/ tools/   链接库与名片页用的小图标
+│   │   ├── links/icons/       链接库图标（模板里留空，条目不填 icon 就显示字母块）
 │   ├── favicon.svg
 │   └── og/default.jpg         默认分享图（1200×630，由 npm run og 生成）
 ├── src/
