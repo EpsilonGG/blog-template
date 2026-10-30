@@ -18,6 +18,11 @@ concurrency:
 
 jobs:
   build:
+    # 站点把站内链接全部写成根绝对路径（`/blog/`、`/images/x.jpg`），只有仓库名是
+    # `<用户名>.github.io` 时才部署在域名根路径上。模板仓库本身叫 blog-template，
+    # 不满足这个条件，所以直接跳过——否则每次 push 都会留一条失败的 run，
+    # 让人误以为模板坏了。改名成 `<用户名>.github.io` 之后这条守卫自动放行。
+    if: ${{ endsWith(github.repository, '.github.io') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -140,6 +140,8 @@ npm ci → npm run check → npm run test:md → npm run build → npm run links
 
 首次约 1–2 分钟。新仓库可能要先去 Actions 标签点一次「I understand my workflows, go ahead and enable them」。
 
+工作流第一条就是一道守卫：**仓库名不以 `.github.io` 结尾时整个 job 直接跳过**。因为站内链接全是根绝对路径，部署到 `https://<用户名>.github.io/blog-template/` 这种子路径下只会得到一个样式全丢的页面。所以「本仓库自己的 push 没有部署」是预期行为，改名成 `<用户名>.github.io` 之后它才会真正跑。
+
 `sync-profile-readme.yml` 是可选的，只在手动触发时运行，没配 `PROFILE_README_TOKEN` 就自动跳过，不影响部署。
 
 ---
